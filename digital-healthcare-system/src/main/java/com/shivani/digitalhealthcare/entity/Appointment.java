@@ -22,4 +22,13 @@ public class Appointment {
    
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
+    
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 }

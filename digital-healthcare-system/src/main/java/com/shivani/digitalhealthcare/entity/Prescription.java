@@ -20,4 +20,12 @@ public class Prescription {
 
     @Column(length = 1000)
     private String instructions;
+    
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+    
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 }
