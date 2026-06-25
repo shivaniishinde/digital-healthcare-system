@@ -1,0 +1,38 @@
+package com.shivani.digitalhealthcare.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.shivani.digitalhealthcare.entity.Doctor;
+import com.shivani.digitalhealthcare.service.DoctorService;
+
+@RestController
+@RequestMapping("/doctors")
+public class DoctorController {
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @PostMapping
+    public Doctor saveDoctor(@RequestBody Doctor doctor) {
+        return doctorService.saveDoctor(doctor);
+    }
+
+    @GetMapping
+    public List<Doctor> getAllDoctors() {
+        return doctorService.getAllDoctors();
+    }
+
+    @GetMapping("/{id}")
+    public Doctor getDoctorById(@PathVariable Long id) {
+        return doctorService.getDoctorById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteDoctor(@PathVariable Long id) {
+        doctorService.deleteDoctor(id);
+        return "Doctor deleted successfully";
+    }
+}
