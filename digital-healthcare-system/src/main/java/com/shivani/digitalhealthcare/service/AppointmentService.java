@@ -35,6 +35,15 @@ public class AppointmentService {
 
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
+        
+     // Duplicate Appointment Validation
+        if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(
+                doctor,
+                appointment.getAppointmentDate(),
+                appointment.getAppointmentTime())) {
+
+            throw new RuntimeException("Doctor is already booked for this time slot.");
+        }
 
         appointment.setDoctor(doctor);
         appointment.setPatient(patient);
