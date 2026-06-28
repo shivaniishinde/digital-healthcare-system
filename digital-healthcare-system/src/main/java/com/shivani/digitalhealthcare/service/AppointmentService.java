@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shivani.digitalhealthcare.entity.Appointment;
+import com.shivani.digitalhealthcare.entity.AppointmentStatus;
 import com.shivani.digitalhealthcare.repository.AppointmentRepository;
 
 @Service
@@ -28,5 +29,15 @@ public class AppointmentService {
 
     public void deleteAppointment(Long id) {
         appointmentRepository.deleteById(id);
+    }
+    
+    public Appointment updateAppointmentStatus(Long id, AppointmentStatus status) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        appointment.setStatus(status);
+
+        return appointmentRepository.save(appointment);
     }
 }
