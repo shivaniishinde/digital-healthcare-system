@@ -2,6 +2,8 @@ package com.shivani.digitalhealthcare.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -15,11 +17,13 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Appointment Date is required")
     private String appointmentDate;
 
+    @NotBlank(message = "Appointment Time is required")
     private String appointmentTime;
 
-   
+    @NotNull(message = "Appointment Status is required")
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
     

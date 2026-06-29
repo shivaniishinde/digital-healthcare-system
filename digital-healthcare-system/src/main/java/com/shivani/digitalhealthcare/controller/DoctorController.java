@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.shivani.digitalhealthcare.entity.Doctor;
 import com.shivani.digitalhealthcare.service.DoctorService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/doctors")
 public class DoctorController {
@@ -16,7 +18,7 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @PostMapping
-    public Doctor saveDoctor(@RequestBody Doctor doctor) {
+    public Doctor saveDoctor(@Valid@RequestBody Doctor doctor) {
         return doctorService.saveDoctor(doctor);
     }
 

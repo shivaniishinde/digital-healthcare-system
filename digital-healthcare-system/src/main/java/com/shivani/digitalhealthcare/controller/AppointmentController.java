@@ -17,6 +17,8 @@ import com.shivani.digitalhealthcare.entity.Appointment;
 import com.shivani.digitalhealthcare.entity.AppointmentStatus;
 import com.shivani.digitalhealthcare.service.AppointmentService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {
@@ -25,7 +27,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @PostMapping
-    public Appointment saveAppointment(@RequestBody Appointment appointment) {
+    public Appointment saveAppointment(@Valid @RequestBody Appointment appointment) {
         return appointmentService.saveAppointment(appointment);
     }
 

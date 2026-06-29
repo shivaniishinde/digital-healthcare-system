@@ -1,5 +1,8 @@
 package com.shivani.digitalhealthcare.entity;
-
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Max;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -25,10 +28,15 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Age is required")
+    @Min(value = 1, message = "Age must be greater than 0")
+    @Max(value = 120, message = "Age must be less than or equal to 120")
     private Integer age;
-
+    
+    @NotBlank(message = "Gender is required")
     private String gender;
-
+    
+    @NotBlank(message = "Blood Group is required")
     private String bloodGroup;
     
     @OneToOne

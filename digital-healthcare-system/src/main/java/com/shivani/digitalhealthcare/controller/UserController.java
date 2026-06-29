@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.shivani.digitalhealthcare.entity.User;
 import com.shivani.digitalhealthcare.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -16,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public User saveUser(@RequestBody User user) {
+    public User saveUser(@Valid @RequestBody User user) {
         return userService.saveUser(user);
     }
 

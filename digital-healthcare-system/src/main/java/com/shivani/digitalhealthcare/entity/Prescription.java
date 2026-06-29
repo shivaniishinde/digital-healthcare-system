@@ -1,6 +1,7 @@
 package com.shivani.digitalhealthcare.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Prescription {
     private String diagnosis;
 
     // Medicines prescribed
+    @NotBlank(message = "Medicines are required")
     @Column(length = 1000)
     private String medicines;
 
@@ -28,6 +30,7 @@ public class Prescription {
     private String dosage;
 
     // Additional instructions
+    @NotBlank(message = "instructions are required")
     @Column(length = 1000)
     private String instructions;
 
