@@ -9,6 +9,9 @@ import com.shivani.digitalhealthcare.entity.Appointment;
 import com.shivani.digitalhealthcare.entity.AppointmentStatus;
 import com.shivani.digitalhealthcare.entity.Doctor;
 import com.shivani.digitalhealthcare.entity.Patient;
+import com.shivani.digitalhealthcare.exception.AppointmentNotFoundException;
+import com.shivani.digitalhealthcare.exception.DoctorNotFoundException;
+import com.shivani.digitalhealthcare.exception.PatientNotFoundException;
 import com.shivani.digitalhealthcare.repository.AppointmentRepository;
 import com.shivani.digitalhealthcare.repository.DoctorRepository;
 import com.shivani.digitalhealthcare.repository.PatientRepository;
@@ -31,10 +34,10 @@ public class AppointmentService {
         Long patientId = appointment.getPatient().getId();
 
         Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
 
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
+                .orElseThrow(() -> new PatientNotFoundException("Patient not found"));
         
      // Duplicate Appointment Validation
         if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(
@@ -56,7 +59,9 @@ public class AppointmentService {
     }
 
     public Appointment getAppointmentById(Long id) {
-        return appointmentRepository.findById(id).orElse(null);
+        return appointmentRepository.findById(id)            
+        		.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+
     }
 
     public void deleteAppointment(Long id) {
@@ -66,7 +71,7 @@ public class AppointmentService {
     public Appointment updateAppointmentStatus(Long id, AppointmentStatus status) {
 
         Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
 
         appointment.setStatus(status);
 

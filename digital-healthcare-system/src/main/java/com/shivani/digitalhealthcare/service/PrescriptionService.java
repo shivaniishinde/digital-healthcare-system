@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shivani.digitalhealthcare.entity.Prescription;
+import com.shivani.digitalhealthcare.exception.PrescriptionNotFoundException;
 import com.shivani.digitalhealthcare.repository.PrescriptionRepository;
 
 @Service
@@ -23,9 +24,10 @@ public class PrescriptionService {
     }
 
     public Prescription getPrescriptionById(Long id) {
-        return prescriptionRepository.findById(id).orElse(null);
+    	return prescriptionRepository.findById(id)
+    	        .orElseThrow(() -> new  PrescriptionNotFoundException("Prescription not found"));
     }
-
+    
     public void deletePrescription(Long id) {
         prescriptionRepository.deleteById(id);
     }

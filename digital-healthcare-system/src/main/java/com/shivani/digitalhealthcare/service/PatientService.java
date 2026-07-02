@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shivani.digitalhealthcare.entity.Patient;
+import com.shivani.digitalhealthcare.exception.PatientNotFoundException;
 import com.shivani.digitalhealthcare.repository.PatientRepository;
 
 @Service
@@ -24,7 +25,7 @@ public class PatientService {
     }
 
     public Patient getPatientById(Long id) {
-        return patientRepository.findById(id).orElse(null);
+        return patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found"));
     }
 
     public void deletePatient(Long id) {
