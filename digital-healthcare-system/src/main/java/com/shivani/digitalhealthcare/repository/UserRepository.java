@@ -5,4 +5,6 @@ import com.shivani.digitalhealthcare.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    boolean existsByEmail(String email);
+
 }
