@@ -1,37 +1,71 @@
 package com.shivani.digitalhealthcare.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.shivani.digitalhealthcare.dto.LoginRequest;
+import com.shivani.digitalhealthcare.dto.LoginResponse;
 import com.shivani.digitalhealthcare.dto.RegisterRequest;
 import com.shivani.digitalhealthcare.entity.User;
 import com.shivani.digitalhealthcare.repository.UserRepository;
-
+import com.shivani.digitalhealthcare.security.CustomUserDetails;
+import com.shivani.digitalhealthcare.security.JwtService;
 @Service
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService,
+                       AuthenticationManager authenticationManager) {
 
-    public User register(RegisterRequest request) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
 
-        // Duplicate Email Validation
-        if (userRepository.existsByEmail(request.getEmail())) {
+    public String register(RegisterRequest request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
 
-        // DTO -> Entity
         User user = new User();
+
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
 
-        // Save User
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return "User Registered Successfully";
+    }
+    
+    public LoginResponse login(LoginRequest request) {
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserDetails userDetails = new CustomUserDetails(user);
+
+        String token = jwtService.generateToken(userDetails);
+
+        return new LoginResponse(token);
     }
 }

@@ -1,25 +1,29 @@
 package com.shivani.digitalhealthcare.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.shivani.digitalhealthcare.dto.LoginRequest;
+import com.shivani.digitalhealthcare.dto.LoginResponse;
 import com.shivani.digitalhealthcare.dto.RegisterRequest;
-import com.shivani.digitalhealthcare.entity.User;
-
-import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
-    @PostMapping("/register")
-    public User register(@Valid @RequestBody RegisterRequest request) {
-
-        return authService.register(request);
-
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
+    }
 }
