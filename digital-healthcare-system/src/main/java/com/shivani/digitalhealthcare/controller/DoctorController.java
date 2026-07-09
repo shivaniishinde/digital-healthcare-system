@@ -16,6 +16,11 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+    
+    @GetMapping("/test")
+    public String test() {
+        return "Doctor API";
+    }
 
     @PostMapping
     public Doctor saveDoctor(@Valid@RequestBody Doctor doctor) {

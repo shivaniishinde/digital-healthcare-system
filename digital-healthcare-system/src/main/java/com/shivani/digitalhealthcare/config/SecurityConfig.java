@@ -53,6 +53,13 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                
+                .requestMatchers("/admins/**").hasRole("ADMIN")
+
+                .requestMatchers("/doctors/**").hasRole("DOCTOR")
+
+                .requestMatchers("/patients/**").hasRole("PATIENT")
+
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())
