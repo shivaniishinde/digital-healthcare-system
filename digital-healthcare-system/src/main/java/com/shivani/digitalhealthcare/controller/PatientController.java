@@ -17,6 +17,11 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+    
+    @GetMapping("/test")
+    public String test() {
+        return "Patient API Accessed Successfully";
+    }
 
     @PostMapping
     public Patient savePatient(@Valid@RequestBody Patient patient) {
