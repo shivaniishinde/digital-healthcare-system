@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,13 @@ public class PrescriptionController {
 	@GetMapping("/{id}")
 	public Prescription getPrescriptionById(@PathVariable Long id) {
 		return prescriptionService.getPrescriptionById(id);
+	}
+	
+	@PutMapping("/{id}")
+	public Prescription updatePrescription(@PathVariable Long id,
+	                                       @RequestBody Prescription prescription) {
+
+	    return prescriptionService.updatePrescription(id, prescription);
 	}
 
 	@DeleteMapping("/{id}")

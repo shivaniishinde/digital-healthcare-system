@@ -47,9 +47,10 @@ public class AppointmentController {
 		return "Appointment deleted successfully";
 	}
 
-	@PutMapping("/{id}/status")
-	public Appointment updateAppointmentStatus(@PathVariable Long id, @RequestParam AppointmentStatus status) {
+	@PutMapping("/{id}")
+	public Appointment updateAppointment(@PathVariable Long id,
+	                                     @RequestBody Appointment appointment) {
 
-		return appointmentService.updateAppointmentStatus(id, status);
+	    return appointmentService.updateAppointment(id, appointment);
 	}
 }

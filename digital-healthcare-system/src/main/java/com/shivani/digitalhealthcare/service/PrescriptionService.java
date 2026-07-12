@@ -27,6 +27,19 @@ public class PrescriptionService {
 		return prescriptionRepository.findById(id)
 				.orElseThrow(() -> new PrescriptionNotFoundException("Prescription not found"));
 	}
+	
+	public Prescription updatePrescription(Long id, Prescription prescription) {
+
+	    Prescription existingPrescription = prescriptionRepository.findById(id)
+	            .orElseThrow(() -> new PrescriptionNotFoundException("Prescription not found"));
+
+	    existingPrescription.setDiagnosis(prescription.getDiagnosis());
+	    existingPrescription.setMedicines(prescription.getMedicines());
+	    existingPrescription.setDosage(prescription.getDosage());
+	    existingPrescription.setInstructions(prescription.getInstructions());
+
+	    return prescriptionRepository.save(existingPrescription);
+	}
 
 	public void deletePrescription(Long id) {
 		prescriptionRepository.deleteById(id);

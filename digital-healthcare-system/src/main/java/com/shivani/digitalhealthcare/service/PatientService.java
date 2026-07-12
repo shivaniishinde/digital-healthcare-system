@@ -27,6 +27,17 @@ public class PatientService {
 		return patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found"));
 	}
 
+	public Patient updatePatient(Long id, Patient patient) {
+
+	    Patient existingPatient = patientRepository.findById(id)
+	            .orElseThrow(() -> new PatientNotFoundException("Patient not found"));
+
+	    existingPatient.setAge(patient.getAge());
+	    existingPatient.setGender(patient.getGender());
+	    existingPatient.setBloodGroup(patient.getBloodGroup());
+
+	    return patientRepository.save(existingPatient);
+	}
 	public void deletePatient(Long id) {
 		patientRepository.deleteById(id);
 	}

@@ -66,13 +66,16 @@ public class AppointmentService {
 		appointmentRepository.deleteById(id);
 	}
 
-	public Appointment updateAppointmentStatus(Long id, AppointmentStatus status) {
+	public Appointment updateAppointment(Long id, Appointment appointment) {
 
-		Appointment appointment = appointmentRepository.findById(id)
-				.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+	    Appointment existingAppointment = appointmentRepository.findById(id)
+	            .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
 
-		appointment.setStatus(status);
+	    existingAppointment.setAppointmentDate(appointment.getAppointmentDate());
+	    existingAppointment.setAppointmentTime(appointment.getAppointmentTime());
+	    existingAppointment.setStatus(appointment.getStatus());
 
-		return appointmentRepository.save(appointment);
+	    
+	    return appointmentRepository.save(existingAppointment);
 	}
 }

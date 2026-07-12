@@ -27,6 +27,17 @@ public class DoctorService {
 		return doctorRepository.findById(id).orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
 	}
 
+	public Doctor updateDoctor(Long id, Doctor doctor) {
+
+	    Doctor existingDoctor = doctorRepository.findById(id)
+	            .orElseThrow(() -> new DoctorNotFoundException("Doctor not found with id: " + id));
+
+	    existingDoctor.setSpecialization(doctor.getSpecialization());
+	    existingDoctor.setQualification(doctor.getQualification());
+	    existingDoctor.setExperience(doctor.getExperience());
+
+	    return doctorRepository.save(existingDoctor);
+	}
 	public void deleteDoctor(Long id) {
 		doctorRepository.deleteById(id);
 	}
