@@ -15,25 +15,24 @@ public class UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-    @Autowired
-    private UserRepository userRepository;
 
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
+	@Autowired
+	private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+	public User saveUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		return userRepository.save(user);
+	}
 
-    public User getUserById(Long id) {
-    	return userRepository.findById(id)
-    	        .orElseThrow(() -> new UserNotFoundException("User not found"));
-    }
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
+	public User getUserById(Long id) {
+		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+	}
+
+	public void deleteUser(Long id) {
+		userRepository.deleteById(id);
+	}
 }

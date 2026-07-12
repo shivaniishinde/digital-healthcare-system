@@ -18,54 +18,57 @@ import com.shivani.digitalhealthcare.security.JwtAuthenticationFilter;
 @Configuration
 public class SecurityConfig {
 
-    private final CustomUserDetailsService userDetailsService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final CustomUserDetailsService userDetailsService;
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService,
-                          JwtAuthenticationFilter jwtAuthenticationFilter) {
+	public SecurityConfig(CustomUserDetailsService userDetailsService,
+			JwtAuthenticationFilter jwtAuthenticationFilter) {
 
-        this.userDetailsService = userDetailsService;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+		this.userDetailsService = userDetailsService;
+		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return provider;
+	}
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+		return configuration.getAuthenticationManager();
+	}
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                
-                .requestMatchers("/admins/**").hasRole("ADMIN")
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
 
-                .requestMatchers("/doctors/**").hasRole("DOCTOR")
+	            // Public APIs
+	            .requestMatchers("/api/auth/**").permitAll()
 
-                .requestMatchers("/patients/**").hasRole("PATIENT")
+	            // Role Based APIs
+	            .requestMatchers("/admins/**").hasRole("ADMIN")
+	            .requestMatchers("/doctors/**").hasRole("DOCTOR")
+	            .requestMatchers("/patients/**").hasRole("PATIENT")
 
-                .anyRequest().authenticated()
-            )
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtAuthenticationFilter,
-                    UsernamePasswordAuthenticationFilter.class);
+	            // Remaining APIs need authentication
+	            .anyRequest().authenticated()
+	        )
+	        .authenticationProvider(authenticationProvider())
+	        .addFilterBefore(jwtAuthenticationFilter,
+	                UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+	    return http.build();
+	}
+	
 }

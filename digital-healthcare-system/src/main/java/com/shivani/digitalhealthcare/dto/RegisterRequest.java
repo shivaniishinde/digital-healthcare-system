@@ -4,24 +4,21 @@ import com.shivani.digitalhealthcare.entity.Role;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 public class RegisterRequest {
 
-    @NotBlank(message = "Name is required")
-    private String name;
+	@NotBlank(message = "Name is required")
+	private String name;
 
-    @Email(message = "Invalid email")
-    @NotBlank(message = "Email is required")
-    private String email;
+	@Email(message = "Invalid email")
+	@NotBlank(message = "Email is required")
+	private String email;
 
-    @NotBlank(message = "Password is required")
-    private String password;
+	@NotBlank(message = "Password is required")
+	private String password;
 
-    private Role role;
+	private Role role;
 
 	public String getName() {
 		return name;
@@ -54,5 +51,5 @@ public class RegisterRequest {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-    
+
 }

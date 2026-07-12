@@ -19,62 +19,60 @@ import com.shivani.digitalhealthcare.repository.PatientRepository;
 @Service
 public class AppointmentService {
 
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+	@Autowired
+	private DoctorRepository doctorRepository;
 
-    @Autowired
-    private PatientRepository patientRepository;
-  
-    public Appointment saveAppointment(Appointment appointment) {
+	@Autowired
+	private PatientRepository patientRepository;
 
-        Long doctorId = appointment.getDoctor().getId();
-        Long patientId = appointment.getPatient().getId();
+	public Appointment saveAppointment(Appointment appointment) {
 
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
+		Long doctorId = appointment.getDoctor().getId();
+		Long patientId = appointment.getPatient().getId();
 
-        Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new PatientNotFoundException("Patient not found"));
-        
-     // Duplicate Appointment Validation
-        if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(
-                doctor,
-                appointment.getAppointmentDate(),
-                appointment.getAppointmentTime())) {
+		Doctor doctor = doctorRepository.findById(doctorId)
+				.orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
 
-            throw new RuntimeException("Doctor is already booked for this time slot.");
-        }
+		Patient patient = patientRepository.findById(patientId)
+				.orElseThrow(() -> new PatientNotFoundException("Patient not found"));
 
-        appointment.setDoctor(doctor);
-        appointment.setPatient(patient);
+		// Duplicate Appointment Validation
+		if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(doctor,
+				appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
 
-        return appointmentRepository.save(appointment);
-    }
+			throw new RuntimeException("Doctor is already booked for this time slot.");
+		}
 
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
-    }
+		appointment.setDoctor(doctor);
+		appointment.setPatient(patient);
 
-    public Appointment getAppointmentById(Long id) {
-        return appointmentRepository.findById(id)            
-        		.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+		return appointmentRepository.save(appointment);
+	}
 
-    }
+	public List<Appointment> getAllAppointments() {
+		return appointmentRepository.findAll();
+	}
 
-    public void deleteAppointment(Long id) {
-        appointmentRepository.deleteById(id);
-    }
-    
-    public Appointment updateAppointmentStatus(Long id, AppointmentStatus status) {
+	public Appointment getAppointmentById(Long id) {
+		return appointmentRepository.findById(id)
+				.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
 
-        Appointment appointment = appointmentRepository.findById(id)
-                .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+	}
 
-        appointment.setStatus(status);
+	public void deleteAppointment(Long id) {
+		appointmentRepository.deleteById(id);
+	}
 
-        return appointmentRepository.save(appointment);
-    }
+	public Appointment updateAppointmentStatus(Long id, AppointmentStatus status) {
+
+		Appointment appointment = appointmentRepository.findById(id)
+				.orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+
+		appointment.setStatus(status);
+
+		return appointmentRepository.save(appointment);
+	}
 }

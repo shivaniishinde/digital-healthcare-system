@@ -14,33 +14,33 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Prescription {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    // Doctor's diagnosis
-    private String diagnosis;
+	// Doctor's diagnosis
+	private String diagnosis;
 
-    // Medicines prescribed
-    @NotBlank(message = "Medicines are required")
-    @Column(length = 1000)
-    private String medicines;
+	// Medicines prescribed
+	@NotBlank(message = "Medicines are required")
+	@Column(length = 1000)
+	private String medicines;
 
-    // Dosage (e.g., 1 Tablet Twice a Day)
-    private String dosage;
+	// Dosage (e.g., 1 Tablet Twice a Day)
+	private String dosage;
 
-    // Additional instructions
-    @NotBlank(message = "instructions are required")
-    @Column(length = 1000)
-    private String instructions;
+	// Additional instructions
+	@NotBlank(message = "instructions are required")
+	@Column(length = 1000)
+	private String instructions;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
+	@ManyToOne
+	@JoinColumn(name = "doctor_id")
+	private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+	@ManyToOne
+	@JoinColumn(name = "patient_id")
+	private Patient patient;
 
 	public String getDosage() {
 		return dosage;
@@ -97,6 +97,5 @@ public class Prescription {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-	
-	
+
 }

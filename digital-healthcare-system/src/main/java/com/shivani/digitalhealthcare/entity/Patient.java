@@ -1,4 +1,5 @@
 package com.shivani.digitalhealthcare.entity;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -20,34 +21,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotNull(message = "Age is required")
-    @Min(value = 1, message = "Age must be greater than 0")
-    @Max(value = 120, message = "Age must be less than or equal to 120")
-    private Integer age;
-    
-    @NotBlank(message = "Gender is required")
-    private String gender;
-    
-    @NotBlank(message = "Blood Group is required")
-    private String bloodGroup;
-    
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    
-    @OneToMany(mappedBy = "patient")
-    @JsonIgnore
-    private List<Appointment> appointments;
+	@NotNull(message = "Age is required")
+	@Min(value = 1, message = "Age must be greater than 0")
+	@Max(value = 120, message = "Age must be less than or equal to 120")
+	private Integer age;
+
+	@NotBlank(message = "Gender is required")
+	private String gender;
+
+	@NotBlank(message = "Blood Group is required")
+	private String bloodGroup;
+
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	@OneToMany(mappedBy = "patient")
+	@JsonIgnore
+	private List<Appointment> appointments;
 
 	public Long getId() {
 		return id;
@@ -96,6 +95,5 @@ public class Patient {
 	public void setAppointments(List<Appointment> appointments) {
 		this.appointments = appointments;
 	}
-    
-    
+
 }

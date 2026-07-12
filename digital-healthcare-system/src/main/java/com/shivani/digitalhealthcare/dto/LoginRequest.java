@@ -2,19 +2,15 @@ package com.shivani.digitalhealthcare.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class LoginRequest {
 
-    @Email
-    @NotBlank
-    private String email;
+	@Email
+	@NotBlank
+	private String email;
 
-    @NotBlank
-    private String password;
+	@NotBlank
+	private String password;
 
 	public String getEmail() {
 		return email;
@@ -31,6 +27,5 @@ public class LoginRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-    
-    
+
 }

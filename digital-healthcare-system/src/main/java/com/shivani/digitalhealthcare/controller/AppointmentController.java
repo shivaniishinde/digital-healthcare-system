@@ -23,35 +23,33 @@ import jakarta.validation.Valid;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    @Autowired
-    private AppointmentService appointmentService;
+	@Autowired
+	private AppointmentService appointmentService;
 
-    @PostMapping
-    public Appointment saveAppointment(@Valid @RequestBody Appointment appointment) {
-        return appointmentService.saveAppointment(appointment);
-    }
+	@PostMapping
+	public Appointment saveAppointment(@Valid @RequestBody Appointment appointment) {
+		return appointmentService.saveAppointment(appointment);
+	}
 
-    @GetMapping
-    public List<Appointment> getAllAppointments() {
-        return appointmentService.getAllAppointments();
-    }
+	@GetMapping
+	public List<Appointment> getAllAppointments() {
+		return appointmentService.getAllAppointments();
+	}
 
-    @GetMapping("/{id}")
-    public Appointment getAppointmentById(@PathVariable Long id) {
-        return appointmentService.getAppointmentById(id);
-    }
+	@GetMapping("/{id}")
+	public Appointment getAppointmentById(@PathVariable Long id) {
+		return appointmentService.getAppointmentById(id);
+	}
 
-    @DeleteMapping("/{id}")
-    public String deleteAppointment(@PathVariable Long id) {
-        appointmentService.deleteAppointment(id);
-        return "Appointment deleted successfully";
-    }
-    
-    @PutMapping("/{id}/status")
-    public Appointment updateAppointmentStatus(
-            @PathVariable Long id,
-            @RequestParam AppointmentStatus status) {
+	@DeleteMapping("/{id}")
+	public String deleteAppointment(@PathVariable Long id) {
+		appointmentService.deleteAppointment(id);
+		return "Appointment deleted successfully";
+	}
 
-        return appointmentService.updateAppointmentStatus(id, status);
-    }
+	@PutMapping("/{id}/status")
+	public Appointment updateAppointmentStatus(@PathVariable Long id, @RequestParam AppointmentStatus status) {
+
+		return appointmentService.updateAppointmentStatus(id, status);
+	}
 }

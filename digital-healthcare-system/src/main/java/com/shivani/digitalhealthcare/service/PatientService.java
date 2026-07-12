@@ -1,6 +1,5 @@
 package com.shivani.digitalhealthcare.service;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +12,22 @@ import com.shivani.digitalhealthcare.repository.PatientRepository;
 @Service
 public class PatientService {
 
-    @Autowired
-    private PatientRepository patientRepository;
+	@Autowired
+	private PatientRepository patientRepository;
 
-    public Patient savePatient(Patient patient) {
-        return patientRepository.save(patient);
-    }
+	public Patient savePatient(Patient patient) {
+		return patientRepository.save(patient);
+	}
 
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
-    }
+	public List<Patient> getAllPatients() {
+		return patientRepository.findAll();
+	}
 
-    public Patient getPatientById(Long id) {
-        return patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found"));
-    }
+	public Patient getPatientById(Long id) {
+		return patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found"));
+	}
 
-    public void deletePatient(Long id) {
-        patientRepository.deleteById(id);
-    }
+	public void deletePatient(Long id) {
+		patientRepository.deleteById(id);
+	}
 }

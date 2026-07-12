@@ -18,30 +18,27 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @NotBlank
-    private String name;
+	@NotBlank
+	private String name;
 
-    @Email(message = "Enter a valid email address")
-    @Column(unique = true)
-    private String email;
+	@Email(message = "Enter a valid email address")
+	@Column(unique = true)
+	private String email;
 
-   
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters")
-    private String password;
+	@NotBlank(message = "Password is required")
+	@Size(min = 6, message = "Password must be at least 6 characters")
+	private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
 	public Long getId() {
 		return id;
@@ -82,6 +79,5 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-    
-    
+
 }

@@ -7,8 +7,6 @@ import com.shivani.digitalhealthcare.entity.Doctor;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-	boolean existsByDoctorAndAppointmentDateAndAppointmentTime(
-	        Doctor doctor,
-	        String appointmentDate,
-	        String appointmentTime);
+	boolean existsByDoctorAndAppointmentDateAndAppointmentTime(Doctor doctor, String appointmentDate,
+			String appointmentTime);
 }
