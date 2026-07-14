@@ -3,7 +3,9 @@ package com.shivani.digitalhealthcare.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.shivani.digitalhealthcare.entity.Appointment;
 import com.shivani.digitalhealthcare.entity.AppointmentStatus;
@@ -40,10 +42,15 @@ public class AppointmentService {
 				.orElseThrow(() -> new PatientNotFoundException("Patient not found"));
 
 		// Duplicate Appointment Validation
-		if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(doctor,
-				appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
+		if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(
+		        doctor,
+		        appointment.getAppointmentDate(),
+		        appointment.getAppointmentTime())) {
 
-			throw new RuntimeException("Doctor is already booked for this time slot.");
+		    throw new ResponseStatusException(
+		            HttpStatus.CONFLICT,
+		            "Doctor is already booked for this time slot."
+		    );
 		}
 
 		appointment.setDoctor(doctor);

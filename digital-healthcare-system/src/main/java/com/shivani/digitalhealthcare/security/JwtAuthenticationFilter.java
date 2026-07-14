@@ -23,16 +23,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public JwtAuthenticationFilter(JwtService jwtService,
                                    CustomUserDetailsService userDetailsService) {
-
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
 
-    // ⭐ Add this method
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getServletPath();
-        return path.startsWith("/api/auth");
+        return request.getServletPath().startsWith("/api/auth");
     }
 
     @Override
@@ -42,18 +39,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        System.out.println("Request URI: " + request.getRequestURI());
-        System.out.println("Authorization: " + request.getHeader("Authorization"));
-
         final String authHeader = request.getHeader("Authorization");
 
+        // If Authorization header is missing or invalid, continue filter chain
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwtToken = authHeader.substring(7);
-        final String userEmail = jwtService.extractUsername(jwtToken);
+        String jwtToken = authHeader.substring(7);
+        String userEmail = jwtService.extractUsername(jwtToken);
 
         if (userEmail != null
                 && SecurityContextHolder.getContext().getAuthentication() == null) {

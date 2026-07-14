@@ -1,5 +1,7 @@
 package com.shivani.digitalhealthcare.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,10 +38,12 @@ public class User {
 
 	@NotBlank(message = "Password is required")
 	@Size(min = 6, message = "Password must be at least 6 characters")
-	private String password;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	@NotNull(message = "Role is required")
+    private Role role;
 
 	public Long getId() {
 		return id;
